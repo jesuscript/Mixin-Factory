@@ -1,15 +1,15 @@
 /*global _ */
 
 window.mixinFactory = function(factory){
+    var hooks, r= /^__before|^__after/;
+    
     var runHook = function(hookName){
         var hookArgs = _.rest(arguments);
         _.each(this["__" + hookName], function(fn){fn.apply(this, hookArgs);},this);
     }, runDestroyHooks = function () {
         this.runHook("beforeDestroy");
         this.runHook("afterDestroy");
-    };
-    
-    var hooks, r= /^__before|^__after/, mix = function(mixins, baseName){
+    }, mix = function(mixins, baseName){
         var mapStringToMixin = function(name){ return factory[baseName][name + "Mixin"]; };
         var unzipMixin = function(m){ return typeof m == "string" ? _.map(m.split(" "), mapStringToMixin) : m; };
         
