@@ -7,10 +7,8 @@ window.mixinFactory = function(factory){
     };
 
     var runDestroyHooks = function () {
-        this.__destructing = true;
         this.runHook("beforeDestroy");
         this.runHook("afterDestroy");
-        this.__destructed = true;
     };
     
     var hooks, r= /^__before|^__after/, mix = function(mixins, baseName){
