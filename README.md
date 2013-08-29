@@ -1,16 +1,18 @@
-Mixin Factory: a micro-framework for building mixin-based classes in JavaScript
-===============================================================================
+Mixin Factory 
+=============
 
-Dependencies: [Underscore](http://underscorejs.org)
+Dependencies
+------------
+[Underscore](http://underscorejs.org)
 
 Basic use:
 ---------
 ```
-mixinFactory(foo = {}); //initialising the mechanism
+mixinFactory(foo = {}); //initialise the mechanism
                            
-foo.factory("bar"); // creating our first factory 
+foo.factory("bar"); // create our first factory 
                            
-foo.bar("newClass",{ // defining a new class
+foo.bar("newClass",{ // definine a new class
    init: function(){ 
        // your codez ...
    },
@@ -19,15 +21,16 @@ foo.bar("newClass",{ // defining a new class
    } 
 });
 
-var newClassInstance = foo.bar.newClass(); // creates a new object of class ```newClass``` and factory ```bar```
+// create a new object of class ```newClass``` and factory ```bar```
+var newClassInstance = foo.bar.newClass(); 
 
 ```
 
-Using mixins:
+Mixins:
 ----------------
 
 ```
-// Will create two new mixins for all classes of the bar factory
+// create two new mixins for all classes of the bar factory
 foo.barMixin("newMixin_1",{
     method_2: function(){
         // codez codez ...
@@ -41,8 +44,7 @@ foo.barMixin("newMixin_2", {
 });
                            
 
-// Now the mixins can be mixed into a class like this:
-
+// Now the mixins can be mixed into a class:
 foo.bar("newClass", "newMixin_1", "newMixin_2",{
     // methods ...
 });
@@ -50,16 +52,21 @@ foo.bar("newClass", "newMixin_1", "newMixin_2",{
 // Or like that:
 foo.bar("newClass", "newMixin_1 newMixin_2");
 
-// Mixins can also be applied to a factory (this will automatically mix the mixin into all classes produced by bar):
+// Mixins can also be applied to a factory (this will automatically mix the mixin into all classes
+// produced by bar):
 foo.factory("bar", "newMixin_1");
 
 // In fact a mixin can be a simple object reference:
 var mixinObj = {
-    //my codez
+    moo: function(){
+        console.log("MOO-O-O-O");
+    }
 };
 
 foo.bar("newClass", mixinObj, {
-    // methods ...
+    bark: function(){
+        console.log("MEOW"); // known issue: doesn't bark.
+    }
 });
 ```
 
@@ -96,10 +103,10 @@ beforeInit hook of newMixin_2
 init of newClass
 ```
 
-```init``` and ```delete``` are the provided constructor and destructor methods. They call all attached "before" and "after" hooks automatically. If you wish to create a custom hook type your class will have to run it using a built-in runHook function:
+```init``` and ```delete``` are the provided constructor and destructor methods. They call all attached "before" and "after" hooks automatically. If you wish to create a custom hook it will have to be called explicitly using a built-in ```runHook``` function:
 
 ```
-foo.barMixin("newMixin_1",{
+foo.barMixin("newMixin_1", {
     __beforeSomeMethod: function(){
         console.log("beforeSomeMethod hook of newMixin_1", arguments);
     }
