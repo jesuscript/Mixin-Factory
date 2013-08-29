@@ -4,9 +4,7 @@ window.mixinFactory = function(factory){
     var runHook = function(hookName){
         var hookArgs = _.rest(arguments);
         _.each(this["__" + hookName], function(fn){fn.apply(this, hookArgs);},this);
-    };
-
-    var runDestroyHooks = function () {
+    }, runDestroyHooks = function () {
         this.runHook("beforeDestroy");
         this.runHook("afterDestroy");
     };
